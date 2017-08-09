@@ -13,6 +13,12 @@ module Program =
     /// </summary>
     let createAction command = Action<CommandLineApplication> command
 
+    let configureLoginCommand (config: CommandLineApplication) =
+        config.OnExecute (fun () ->
+            printfn "Todo: send the user to a shopify oauth connection page."
+            0
+        )
+
     /// <summary>
     /// Parent command for listing Shop information.
     /// </summary>
@@ -22,23 +28,17 @@ module Program =
             0
         )
 
-        ignore ()
-
     let configureOrderCommand (config: CommandLineApplication) =
         config.OnExecute (fun () ->
             printfn "Todo: print Order information to the command line."
             0
         ) 
-
-        ignore ()
         
     let configureCustomerCommand (config: CommandLineApplication) =
         config.OnExecute (fun () ->
             printfn "Todo: print Customer information to the command line."
             0
         )
-
-        ignore ()    
 
     [<EntryPoint>]
     let main argv =
@@ -55,7 +55,9 @@ module Program =
         let customer =
             app.Command("customer", createAction configureCustomerCommand, false) 
         let customerAlias = 
-            app.Command("cust", createAction configureCustomerCommand, false)                       
+            app.Command("cust", createAction configureCustomerCommand, false)    
+        let login = 
+            app.Command("login", createAction configureLoginCommand, false)                           
 
         app.OnExecute (fun () ->
             app.ShowHelp ()
